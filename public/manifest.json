@@ -1,0 +1,22 @@
+{
+  "name": "R2 Drive // 云端存储",
+  "short_name": "R2 Drive",
+  "description": "Cloudflare R2 Object Storage Drive Client",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0c",
+  "theme_color": "#0a0a0c",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
