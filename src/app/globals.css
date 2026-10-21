@@ -1,26 +1,287 @@
-@import "tailwindcss";
+/* ============================================================
+   kurzagin — shared stylesheet & design tokens
+   ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;0,600;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Noto+Sans+JP:wght@300;400;500;700&display=swap');
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg-0: #0a0a0c;
+  --bg-1: #111114;
+  --bg-2: #18181c;
+  --bg-3: #1f1f24;
+  --border: #2a2a30;
+  --border-subtle: #1e1e24;
+  --text-0: #e2ded6;
+  --text-1: #b0aca4;
+  --text-2: #706c66;
+  --text-3: #4a4844;
+  --accent: #c49368;
+  --accent-dim: rgba(196,147,104,0.12);
+  --accent-hover: #d4a478;
+  --teal: #6a9e9e;
+  --teal-dim: rgba(106,158,158,0.1);
+  --warm: #a08060;
+  --red-soft: #b05050;
+  --green-soft: #6a9a6a;
+  --mono: 'IBM Plex Mono', monospace;
+  --sans: 'IBM Plex Sans', sans-serif;
+  --jp: 'Noto Sans JP', sans-serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+html {
+  scroll-behavior: smooth;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+html, body {
+  background-color: var(--bg-0);
+  color: var(--text-0);
+  font-family: var(--sans);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* Kurzagin signature dot grid */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: radial-gradient(circle, var(--border-subtle) 1px, transparent 1px);
+  background-size: 24px 24px;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.55;
+}
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-0); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-3); }
+
+/* Typography and common utility classes */
+.font-mono { font-family: var(--mono); }
+.font-sans { font-family: var(--sans); }
+.font-jp { font-family: var(--jp); }
+
+/* Nav */
+nav.top-nav {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  height: 48px;
+  background: rgba(10, 10, 12, 0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  gap: 12px;
+}
+
+.nav-brand {
+  font-family: var(--mono);
+  font-weight: 500;
+  font-size: 0.8rem;
+  color: var(--text-0);
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.nav-brand .dot {
+  width: 6px;
+  height: 6px;
+  background: var(--accent);
+  border-radius: 50%;
+  display: inline-block;
+  box-shadow: 0 0 8px var(--accent);
+  flex-shrink: 0;
+}
+
+.nav-brand .jp {
+  font-family: var(--jp);
+  font-size: 0.65rem;
+  color: var(--text-2);
+  font-weight: 400;
+}
+
+/* Kurzagin signature bracket card corners */
+.bracket-card {
+  position: relative;
+  background: var(--bg-1);
+  border: 1px solid var(--border-subtle);
+  transition: border-color 0.25s, background 0.25s;
+}
+
+.bracket-card:hover {
+  border-color: var(--border);
+  background: var(--bg-2);
+}
+
+.bracket-card::before,
+.bracket-card::after {
+  content: '';
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-color: var(--accent);
+  border-style: solid;
+  opacity: 0;
+  transition: opacity 0.25s;
+  pointer-events: none;
+}
+
+.bracket-card::before {
+  top: -1px;
+  left: -1px;
+  border-width: 1px 0 0 1px;
+}
+
+.bracket-card::after {
+  bottom: -1px;
+  right: -1px;
+  border-width: 0 1px 1px 0;
+}
+
+.bracket-card:hover::before,
+.bracket-card:hover::after {
+  opacity: 1;
+}
+
+/* ============================================================
+   MOBILE & RESPONSIVE ADAPTATIONS
+   ============================================================ */
+.mobile-nav-toggle {
+  display: none !important;
+}
+
+.stats-badge-desktop {
+  display: flex !important;
+}
+
+.search-bar-desktop {
+  display: flex !important;
+}
+
+.mobile-bottom-nav {
+  display: none !important;
+}
+
+@media (max-width: 768px) {
+  .mobile-nav-toggle {
+    display: flex !important;
   }
-}
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  .stats-badge-desktop {
+    display: none !important;
+  }
+
+  .nav-brand .jp {
+    display: none !important;
+  }
+
+  .search-bar-desktop {
+    display: none !important;
+  }
+
+  /* Responsive layout changes */
+  .drive-sidebar-desktop {
+    display: none !important;
+  }
+
+  /* Show dedicated mobile bottom navigation bar */
+  .mobile-bottom-nav {
+    display: flex !important;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 56px;
+    background: rgba(10, 10, 12, 0.96);
+    backdrop-filter: blur(14px);
+    border-top: 1px solid var(--border);
+    z-index: 90;
+    align-items: center;
+    justify-content: space-around;
+    padding: 0 8px;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  .mobile-nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    background: transparent;
+    border: none;
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    color: var(--text-2);
+    cursor: pointer;
+    flex: 1;
+    height: 100%;
+    transition: color 0.2s;
+  }
+
+  .mobile-nav-item.active {
+    color: var(--accent);
+  }
+
+  .mobile-nav-item.trash.active {
+    color: var(--red-soft);
+  }
+
+  /* Content area adjustment */
+  .drive-main-content {
+    padding: 14px !important;
+    padding-bottom: 96px !important;
+  }
+
+  .breadcrumb-bar {
+    padding: 10px 14px !important;
+    gap: 8px !important;
+  }
+
+  /* File items touch friendly layout */
+  .files-grid-container {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+  }
+
+  .folders-grid-container {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+  }
+
+  /* Mobile floating action upload button */
+  .mobile-fab-upload {
+    display: flex !important;
+    position: fixed;
+    right: 18px;
+    bottom: 72px;
+    z-index: 95;
+    background: var(--accent);
+    color: #0a0a0c;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.6), 0 0 10px rgba(196,147,104,0.4);
+    border: none;
+    cursor: pointer;
+  }
 }
